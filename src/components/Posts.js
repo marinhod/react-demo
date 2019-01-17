@@ -14,6 +14,12 @@ class Posts extends Component {
       .then(json => this.setState({posts: json}))
   }
 
+  componentWillReceiveProps(nextprops) {
+    if (nextprops.newPost) {
+      this.state.posts.unshift(nextprops.newPost)
+    }
+  }
+
   render() {
     const postItems = this.state.posts.map(post => (
       <li key={post.id}>

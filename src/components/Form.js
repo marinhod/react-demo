@@ -16,10 +16,14 @@ class Form extends Component {
     this.setState({[e.target.name]: [e.target.value]});
   }
 
+  onNewPost(newPost) {
+    this.props.newPost(newPost);
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
-    const post = {
+    const postData = {
       title: this.state.title,
       body: this.state.body
     }
@@ -29,10 +33,14 @@ class Form extends Component {
       headers: {
         'content-type': 'aplication/json'
       },
-      body: JSON.stringify(post)
+      body: JSON.stringify(postData)
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(post => this.onNewPost({
+      id: post.id,
+      title: postData.title[0],
+      body: postData.body[0]
+    }))
   }
 
   render() {
